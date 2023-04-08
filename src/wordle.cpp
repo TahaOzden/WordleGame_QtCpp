@@ -41,7 +41,8 @@ void Wordle::handleKeys(const QString &str)
     m_currentCol = m_guessedTexts[m_currentRow].size();
 
     emit onKeyClicked(QVariant(m_guessedTexts));
-
+    
+    // Added to trigger pipeline, remove this line
     //    qDebug() << "Pressed key : " << str << '\n';
     //    qDebug() << "m_currentCol is : " << m_currentCol << '\n';
     //    qDebug() << "m_guessedText is : " << m_guessedTexts << '\n';
