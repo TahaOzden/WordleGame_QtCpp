@@ -78,3 +78,14 @@ jobs:
 
       - name: Deployment
         run: windeployqt --release --qmldir ${{ env.SOURCE_DIR }} ${{runner.temp}}\build\Wordle_Try1.exe
+        
+      - name: Zip build
+        working-directory: ${{ runner.temp }}
+        run:  |
+              7z a ${{ env.ARTIFACT }} ${{ runner.temp }}\build\* -r
+              
+      - name: Save build artifact
+        uses: actions/upload-artifact@master
+        with:
+          name: ${{ env.ARTIFACT }}
+          path: ${{ runner.temp }}\${{ env.ARTIFACT }}
