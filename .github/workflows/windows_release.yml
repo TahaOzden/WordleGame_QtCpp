@@ -57,5 +57,19 @@ jobs:
         run:  |
               7z x jom.zip -ojom
               
+      - name: Setup cmake
+        uses: jwlawson/actions-setup-cmake@v1.13
+        with:
+          cmake-version: '3.24.x'
+          
+      - name: Use cmake
+        run: cmake --version
+              
       - name: Create build directory
         run:  mkdir ${{ runner.temp }}\build
+        
+      - name: Configure CMake
+        run: cmake -G "MinGW Makefiles" -B '${{runner.temp}}'\build
+
+      - name: Build
+        run: cmake --build '${{runner.temp}}'\build
