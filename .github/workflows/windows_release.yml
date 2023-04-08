@@ -41,21 +41,51 @@ jobs:
           version:      ${{ env.QT_VERSION }}
           host:         windows
           target:       desktop
-          arch:         win64_msvc2019_64
+          arch:         win64_mingw
           dir:          ${{ runner.temp }}
           #modules:      qtcharts qt3d
           setup-python: false
-
-      - name: Download JOM
-        uses: suisei-cn/actions-download-file@v1
+              
+      - name: Check mingw g++ version before install
+        run: |
+          g++.exe --version
+      
+      - name: Install correct version of mingw
+        uses: crazy-max/ghaction-chocolatey@v1
         with:
-          url:    http://download.qt.io/official_releases/jom/jom.zip
-          target: ${{ runner.temp }}\
-
-      - name: Unzip JOM
-        working-directory: ${{ runner.temp }}
-        run:  |
-              7z x jom.zip -ojom
+          args: install mingw --version=11.2.0  -y
+       
+      - name: Check mingw g++ version after install
+        run: |
+          g++.exe --version
+       
+      - name: Setup cmake
+        uses: jwlawson/actions-setup-cmake@v1.13
+        with:
+          cmake-version: '3.24.x'
+          
+      - name: Use cmake
+        run: cmake --version
               
       - name: Create build directory
         run:  mkdir ${{ runner.temp }}\build
+        
+      - name: Configure CMake
+        run: cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release -B ${{runner.temp}}\build
+
+      - name: Build
+        run: cmake --build ${{runner.temp}}\build
+
+      - name: Deployment
+        run: windeployqt --release --qmldir ${{ env.SOURCE_DIR }} ${{runner.temp}}\build\Wordle_Try1.exe
+        
+      - name: Zip build
+        working-directory: ${{ runner.temp }}
+        run:  |
+              7z a ${{ env.ARTIFACT }} ${{ runner.temp }}\build\* -r
+              
+      - name: Save build artifact
+        uses: actions/upload-artifact@master
+        with:
+          name: ${{ env.ARTIFACT }}
+          path: ${{ runner.temp }}\${{ env.ARTIFACT }}
