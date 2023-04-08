@@ -180,13 +180,8 @@ bool Wordle::isGameEnded()
 
 void Wordle::readWords()
 {
-    QDir cur = QDir::current();
-    if(cur.cdUp() == true)
-    {
-        m_filePath = cur.absolutePath() + QDir::separator() + "Wordle_Try1" + QDir::separator() +
-                "data" + QDir::separator() + "words.txt";
-    }
-
+    // Let RC handle the txt file
+    m_filePath = ":/data/words.txt";
     QFile file(m_filePath);
     if(!file.exists())
     {

@@ -14,6 +14,17 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core Quick)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Quick)
 
+# Get the path to the Qt binaries
+get_target_property(QT6_BIN_DIR Qt6::Core IMPORTED_LOCATION_RELEASE)
+get_filename_component(QT6_DIR "${QT6_BIN_DIR}" DIRECTORY)
+
+#Get the path to mingw 11 compiler
+get_filename_component(QT6_TOOLS_DIR "${QT6_DIR}/../../.." ABSOLUTE)
+set(QT6_MINGW11_EXEDIR "${QT6_TOOLS_DIR}/Tools/mingw1120_64/bin/gcc.exe")
+
+set(CMAKE_C_COMPILER "${QT6_MINGW11_EXEDIR}")
+
+
 set(PROJECT_SOURCES
         src/main.cpp
         qml.qrc

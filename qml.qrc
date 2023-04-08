@@ -4,6 +4,7 @@
         <file>ui/Rect_Guess.qml</file>
         <file>ui/Rect_KeyboardKey.qml</file>
         <file>ui/Animation_Guess.qml</file>
+        <file>data/words.txt</file>
     </qresource>
     <qresource prefix="/icons">
         <file>resource/moreIcon.png</file>
