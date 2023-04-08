@@ -57,6 +57,21 @@ jobs:
         run:  |
               7z x jom.zip -ojom
               
+      - name: Check mingw g++ version before install
+        run: |
+          Write-Output (Get-Command g++.exe).Path
+          g++.exe --version
+      
+      - name: Install correct version of mingw
+        uses: crazy-max/ghaction-chocolatey@v1
+        with:
+          args: install mingw --version=11.2.0  -y
+       
+      - name: Check mingw g++ version after install
+        run: |
+          Write-Output (Get-Command g++.exe).Path
+          g++.exe --version
+       
       - name: Setup cmake
         uses: jwlawson/actions-setup-cmake@v1.13
         with:
