@@ -69,7 +69,7 @@ jobs:
         run:  mkdir ${{ runner.temp }}\build
         
       - name: Configure CMake
-        run: cmake -G "MinGW Makefiles" -B '${{runner.temp}}'\build
+        run: cmake -G "MinGW Makefiles" -B ${{runner.temp}}\build
 
       - name: Build
-        run: cmake --build '${{runner.temp}}'\build
+        run: cmake --build ${{runner.temp}}\build
