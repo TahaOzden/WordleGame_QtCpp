@@ -41,7 +41,7 @@ jobs:
           version:      ${{ env.QT_VERSION }}
           host:         windows
           target:       desktop
-          arch:         win64_msvc2019_64
+          arch:         win64_mingw
           dir:          ${{ runner.temp }}
           #modules:      qtcharts qt3d
           setup-python: false
